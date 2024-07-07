@@ -7,7 +7,8 @@ import (
 )
 
 type Config struct {
-	Token string
+	Token           string
+	TelegramBotHost string
 }
 
 func MustLoad() Config {
@@ -16,9 +17,17 @@ func MustLoad() Config {
 		log.Fatalf("Error loading .env file")
 	}
 	token := os.Getenv("BOT_TOKEN")
+	host := os.Getenv("TELEGRAM_BOT_HOST")
+
 	if token == "" {
 		log.Fatal("BOT_TOKEN is not set")
 	}
-	return Config{Token: token}
+	if host == "" {
+		log.Fatal("TELEGRAM_BOT_HOST is not set")
+	}
+	return Config{
+		Token:           token,
+		TelegramBotHost: host,
+	}
 
 }
