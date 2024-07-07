@@ -21,8 +21,8 @@ const (
 	sendMessageMethod = "sendMessage"
 )
 
-func New(host string, token string) Client {
-	return Client{
+func New(host string, token string) *Client {
+	return &Client{
 		host:     host,
 		basePath: newBasePath(token),
 		client:   http.Client{},
@@ -40,6 +40,7 @@ func (c *Client) SendMessages(chatID int, text string) error {
 	if err != nil {
 		return e.Wrap("can't send message", err)
 	}
+	return nil
 }
 
 func (c *Client) Updates(offset int, limit int) ([]Update, error) {
@@ -55,6 +56,7 @@ func (c *Client) Updates(offset int, limit int) ([]Update, error) {
 	if err := json.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
+	return res.Result, nil
 
 }
 
